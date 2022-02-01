@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <title>Product Details</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <a href="/" class="navbar-brand">
+            <span class="headertitle"> apple </span> insight</a>
+
+        <ul class="rightside">
+            <li style="list-style: none" class="nav-item">
+                <a class="nav-link active" href="#">HOME <span class="sr-only">(current)</span></a
+          >
+        </li>
+      </ul>
+    </nav>
+    <h1>Details of <%= products.title %> are</h1>
+    <ul class="myul d-flex flex-column align-items-center">
+      <!-- <form action="/charge/<%= products.id%>" method="post"> -->
+      <li style="list-style: none">
+        <img name="image" src="<%=products.image%>" alt="" />
+      </li>
+      <p><%=products.description%></p>
+      <li style="list-style: none">
+        price:<strong name="price"><%= products.price%></strong>
+      </li>
+      <span name="id" class="id" style="display: none"><%= products.id%></span>
+      <span name="title" class="title" style="display: none"
+        ><%= products.title%></span
+      >
+      <button id="buynow" class="mt-3 btn btn-dark">Buy Now</button>
+      <!-- <div id="payment-card" class="mt-5"></div> -->
+      <!-- <div id="payment-errors" class="mt-5"></div> -->
+      <!-- </form> -->
+    </ul>
+  </body>
+  <!-- <script src="https://js.stripe.com/v3/"></script> -->
+
+  <script>
+    // const stripe = Stripe(
+    //   "pk_test_51JMFxiSDJaeDh8bHKHYaDbufhLsORcDVPZLgzVsfoquVIYh8lZUSjp28rthc11NmwZZf6y3cCB81EI6SI9kfC53N00lugdTiPa"
+    // );
+    // const elements = stripe.elements();
+
+    // const card = elements.create("card", { hidePostalCode: true });
+    // card.mount("#payment-card");
+
+    // const form = document.querySelector("form");
+    const myul = document.querySelector(".myul");
+
+    let description = myul.children[1].innerHTML;
+    let price = myul.children[2].children[0].innerHTML;
+    let image = myul.children[0].firstElementChild.currentSrc;
+    let id = myul.children[3].innerHTML;
+    let title = myul.children[4].innerHTML;
+
+    // let description = form.children[1].innerHTML;
+    // let price = form.children[2].children[0].innerHTML;
+    // let image = form.children[0].firstElementChild.currentSrc;
+    // let id = form.children[3].innerHTML;
+    // let title = form.children[4].innerHTML;
+
+    // const errors = document.querySelector("#payment-errors");
+
+    // var checkoutButton = document.getElementById("buynow");
+
+    // checkoutButton.addEventListener("click", function () {
+    //   fetch(`/charge/${id}`, {
+    //     headers: { "Content-Type": "application/json" },
+    //     method: "POST",
+    //     body: JSON.stringify({
+    //       product: {
+    //         id: id,
+    //         title: title,
+    //         image: image,
+    //         amount: price,
+    //         description: description,
+    //       },
+    //     }),
+    //   })
+    //     .then(function (response) {
+    //       return response.json();
+    //     })
+    //     .then(function (session) {
+    //       console.log(session);
+    //       return stripe.redirectToCheckout({ sessionId: session.id });
+    //     })
+    //     .then(function (result) {
+    //       // If redirectToCheckout fails due to a browser or network
+    //       // error, you should display the localized error message to your
+    //       // customer using error.message.
+    //       if (result.error) {
+    //         alert(result.error.message);
+    //       }
+    //     })
+    //     .catch(function (error) {
+    //       console.error("Error:", error);
+    //     });
+    // });
+
+    // form.addEventListener("submit", (event) => {
+    //   event.preventDefault();
+    //   stripe.createToken(card).then((res) => {
+    //     if (res.error) {
+    //       errors.textContent = res.error.message;
+    //     } else {
+    //       const fromData = new FormData();
+
+    //       const stripeToken = document.createElement("input");
+    //       stripeToken.setAttribute("type", "hidden");
+    //       stripeToken.setAttribute("name", "stripeToken");
+    //       stripeToken.setAttribute("value", res.token.id);
+
+    //       form.appendChild(stripeToken);
+
+    //       form.submit();
+
+    //       //   4242 4242 4242 4242
+    //     }
+    //   });
+    // });
+
+    var stripeHandler = StripeCheckout.configure({
+      key: "pk_test_51JMFxiSDJaeDh8bHKHYaDbufhLsORcDVPZLgzVsfoquVIYh8lZUSjp28rthc11NmwZZf6y3cCB81EI6SI9kfC53N00lugdTiPa",
+
+      description: `Total price is ${price}`,
+      label: `${price}`,
+
+      shippingAddress: true,
+      currency: "USD",
+      token: function (token) {
+        let product = {
+          id: id,
+          title: title,
+          image: image,
+          amount: price,
+          description: description,
+        };
+        // var items = [];
+        // var cartItemContainer =
+        //   document.getElementsByClassName("cart-items")[0];
+        // var cartRows = cartItemContainer.getElementsByClassName("cart-row");
+        // for (var i = 0; i < cartRows.length; i++) {
+        //   var cartRow = cartRows[i];
+        //   var quantityElement = cartRow.getElementsByClassName(
+        //     "cart-quantity-input"
+        //   )[0];
+        //   var quantity = quantityElement.value;
+        //   var id = cartRow.dataset.itemId;
+        //   items.push({
+        //     id: id,
+        //     quantity: quantity,
+        //   });
+        // }
+
+        fetch(`/charge/${id}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            stripeTokenId: token.id,
+            product: product,
+          }),
+        })
+          .then(function (res) {
+            return res.json();
+          })
+          .then(function (data) {
+            console.log(data.details);
+            window.location.href = `/success?title=${JSON.stringify(
+              data.details.title
+            )}&total=${JSON.stringify(
+              data.details.total
+            )}&method=${JSON.stringify(data.details.method)}`; //+ JSON.stringify(data.details);
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+      },
+    });
+
+    var checkoutButton = document.getElementById("buynow");
+
+    checkoutButton.addEventListener("click", function () {
+      stripeHandler.open({
+        amount: parseInt(price),
+      });
+    });
+  </script>
+</html>

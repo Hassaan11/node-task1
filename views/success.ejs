@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+
+    <title>Products</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <a href="/" class="navbar-brand">
+            <span class="headertitle"> apple </span> insight</a>
+
+        <ul class="rightside">
+            <li style="list-style: none" class="nav-item">
+                <a class="nav-link active" href="#">HOME <span class="sr-only">(current)</span></a
+          >
+        </li>
+      </ul>
+    </nav>
+    <h1 class="text-center">Order Confirmed</h1>
+
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Method</th>
+      </tr>
+      <tr>
+        <td id="title"></td>
+        <td id="price"></td>
+        <td id="method"></td>
+      </tr>
+    </table>
+  </body>
+  <script>
+    let params = new URLSearchParams(location.search);
+
+    let title2 = params.get("title");
+    console.log(JSON.parse(title2));
+
+    let price2 = params.get("total");
+    console.log(JSON.parse(price2));
+
+    let method2 = params.get("method");
+    console.log(JSON.parse(method2));
+
+    let title = document.getElementById("title");
+    title.innerText = JSON.parse(title2);
+
+    let price = document.getElementById("price");
+    price.innerText = JSON.parse(price2);
+
+    let method = document.getElementById("method");
+    method.innerText = JSON.parse(method2);
+  </script>
+</html>
