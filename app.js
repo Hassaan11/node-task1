@@ -1,15 +1,16 @@
 const express = require("express");
+
 const path = require("path");
 const app = express();
 const database = require("./database.js");
 const SyncTables = require("./models/SyncTables");
 const bodyParser = require("body-parser");
 const ProductController = require("./Controllers/Product.controller");
-const stripe = require("stripe")(
-    "sk_test_51JMFxiSDJaeDh8bHxJiygN6dxYKIhOBTjRfSsH5NWRPTG9QAKuSaFWpzgte4BuCf2JBoyOjtb6XXVxNtJd1o1Ex200qslGRKU8"
-);
+const stripe = require("stripe")(process.env.StripeKey);
 
 const Order = require("./models/Order.models");
+const dotenv = require("dotenv");
+dotenv.config();
 
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 

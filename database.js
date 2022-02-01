@@ -1,11 +1,13 @@
 "use strict";
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const { Sequelize } = require("sequelize");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const sequelize = new Sequelize({
     database: "ecommerce",
     username: "root",
-    password: "hassaan",
+    password: process.env.pass,
     host: "localhost",
     port: 3306,
     dialect: "mysql",
